@@ -5,3 +5,5 @@
 ### Upgrade 2.0
 - created 3 apples;
 - snake can go beyond the vertical borders;
+- you can see score;
+- if you lose, write "GG WP";
