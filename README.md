@@ -7,3 +7,4 @@
 - snake can go beyond the vertical borders;
 - you can see score;
 - if you lose, write "GG WP";
+![1111](https://user-images.githubusercontent.com/93983025/178030498-97029792-a03f-46c3-99c4-d0ef04852b0b.jpg)
