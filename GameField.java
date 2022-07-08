@@ -16,8 +16,8 @@ public class GameField extends JPanel implements ActionListener { //то что 
     private Image dot;
 
     // координаты
-    private int appleX;
-    private int appleY;
+    private int [] appleX = new int[3];
+    private int [] appleY = new int[3];
 
     private int [] x = new int[ALL_DOTS];
     private int [] y = new int[ALL_DOTS];
@@ -29,9 +29,15 @@ public class GameField extends JPanel implements ActionListener { //то что 
     private boolean left= false;
     private boolean up = false;
     private boolean down = false;
+    private int eatenAppleX = 0;
+    private int eatenAppleY = 0;
     public void createApple() { // создаем координату яблока
-        appleX = new Random().nextInt(20)*DOT_SIZE;
-        appleY = new Random().nextInt(20)*DOT_SIZE;
+        for (int i = 0; i < 3; i++) {
+            if (eatenAppleX == appleX[i] && eatenAppleY == appleY[i]) {
+                appleX[i] = new Random().nextInt(20) * DOT_SIZE;
+                appleY[i] = new Random().nextInt(20) * DOT_SIZE;
+            }
+        }
     }
 
     public void loadImage(){ // сеттер для наших картинок
@@ -42,9 +48,13 @@ public class GameField extends JPanel implements ActionListener { //то что 
     }
 
     public void checkApple(){
-        if (appleX==x[0] && appleY == y[0]) {
-            dots++;
-            createApple();
+        for (int i = 0; i < 3; i++) {
+            if (appleX[i]==x[0] && appleY[i] == y[0]) {
+                dots++;
+                eatenAppleX = appleX[i];
+                eatenAppleY = appleY[i];
+                createApple();
+            }
         }
     }
 
@@ -65,9 +75,9 @@ public class GameField extends JPanel implements ActionListener { //то что 
                 inGame = false;
         }
         if (x[0]>SIZE)
-            inGame = false;
+            x[0] = 0;
         if (x[0]<0)
-            inGame = false;
+            x[0] = SIZE;
         if (y[0]>SIZE)
             inGame = false;
         if (y[0]<0)
@@ -96,10 +106,18 @@ public class GameField extends JPanel implements ActionListener { //то что 
     protected void paintComponent (Graphics g) {
         super.paintComponent(g);
         if (inGame) {
-            g.drawImage(apple, appleX, appleY, this);
+            for (int i = 0; i < 3; i++) {
+                g.drawImage(apple, appleX[i], appleY[i], this);
+            }
+            g.setColor(Color.magenta);
+            g.drawString(String.valueOf(dots), 250, 30);
             for (int i = 0; i < dots; i++) {
                 g.drawImage(dot,x[i], y[i], this);
             }
+        } else {
+            String str = "GG WP";
+            g.setColor(Color.PINK);
+            g.drawString(str, SIZE/6,SIZE/2);
         }
     }
 
